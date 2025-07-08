@@ -115,20 +115,20 @@ http://localhost:8080/swagger/index.html
 
 ## Estructura del proyecto
 
+```bash
 sistema-gestor/
-│
-├── controllers/       # Lógica de los endpoints
-│   └── product.go
-├── models/            # Modelos de dominio (ORM)
+├── controllers
+│   ├── productController.go
+│   └── stockController.go
+├── models
 │   ├── product.go
 │   └── stock.go
-├── docs/              # Documentación generada por Swagger
-│
-├── main.go            # Punto de entrada principal
-├── crear_base.sql     # Script de creación de base MySQL
-└── go.mod             # Dependencias y módulos
-
-
+├── main.go
+├── go.mod
+├── go.sum
+├── crear_base.sql
+└── README.md
+```
 ---
 
 ## Autoría del proyecto

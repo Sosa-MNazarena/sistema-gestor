@@ -38,6 +38,9 @@ func main() {
 	router.GET("/products/:id", controllers.GetProductByID)
 	router.PUT("/products/:id", controllers.UpdateProduct)
 	router.DELETE("/products/:id", controllers.DeleteProduct)
+	controllers.InitDB(db)
+	router.GET("/excelReader", controllers.ReadExcelFile)
+
 
 	router.Run(":8080")
 

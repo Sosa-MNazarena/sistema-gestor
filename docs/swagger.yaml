@@ -45,6 +45,33 @@ info:
   title: API de Productos
   version: "1.0"
 paths:
+  /excelReader:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ruta del archivo (absoluta)
+        in: query
+        name: path
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "400":
+          description: Error al leer el archivo
+          schema:
+            type: string
+      summary: Leer un archivo Excel
+      tags:
+      - Excels
   /products:
     get:
       consumes:
