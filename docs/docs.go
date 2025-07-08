@@ -36,6 +36,12 @@ const docTemplate = `{
                                 "$ref": "#/definitions/models.Product"
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Error al obtener productos",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             },
@@ -66,6 +72,128 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/models.Product"
+                        }
+                    },
+                    "500": {
+                        "description": "Fallo al crear el producto",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener un producto por su ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID del producto",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Product"
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID del producto",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Producto a actualizar",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Product"
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID del producto",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }

@@ -35,6 +35,9 @@ func main() {
 	controllers.InitDB(db)
 	router.POST("/products", controllers.CreateProduct)
 	router.GET("/products", controllers.GetProducts)
+	router.GET("/products/:id", controllers.GetProductByID)
+	router.PUT("/products/:id", controllers.UpdateProduct)
+	router.DELETE("/products/:id", controllers.DeleteProduct)
 
 	router.Run(":8080")
 
