@@ -12,9 +12,10 @@ import (
 	"gorm.io/gorm"
 )
 
-// @title API de Productos
+// @title Sistema Gestor de Productos API
 // @version 1.0
 // @description Esta API permite gestionar productos con GORM y Gin.
+// @contact.name Sosa, Mariana Nazarena
 // @host localhost:8080
 // @BasePath /
 func main() {
@@ -38,7 +39,6 @@ func main() {
 	router.GET("/products/:id", controllers.GetProductByID)
 	router.PUT("/products/:id", controllers.UpdateProduct)
 	router.DELETE("/products/:id", controllers.DeleteProduct)
-	controllers.InitDB(db)
 	router.GET("/excelReader", controllers.ReadExcelFile)
 
 

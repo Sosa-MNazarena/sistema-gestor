@@ -119,10 +119,15 @@ http://localhost:8080/swagger/index.html
 sistema-gestor/
 ├── controllers
 │   ├── productController.go
-│   └── stockController.go
+│   └── excelController.go
 ├── models
 │   ├── product.go
 │   └── stock.go
+├── strategy
+│   ├── apiReader.go
+│   ├── dataReader.go
+│   ├── excelReader.go
+│   └── readerContexto.go
 ├── main.go
 ├── go.mod
 ├── go.sum
