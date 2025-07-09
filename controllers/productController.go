@@ -1,16 +1,15 @@
 package controllers
 
 import (
-	"gorm.io/gorm"
 	"sistema-gestor/models"
+	"sistema-gestor/services"
 	"github.com/gin-gonic/gin"
-	
 )
 
-var db *gorm.DB
+var productService services.ProductService
 
-func InitDB(database *gorm.DB) {
-	db = database
+func InitProductService(service services.ProductService) {
+	productService = service
 }
 
 //@Summary Crear un producto nuevo
@@ -28,7 +27,7 @@ func CreateProduct(c *gin.Context) {
 		return
 	}
 
-	if err := db.Create(&product).Error; err != nil {
+	if err := productService.Create(&product); err != nil {
 		c.JSON(500, gin.H{"error": "Fallo al crear el producto"})
 		return
 	}
@@ -44,8 +43,8 @@ func CreateProduct(c *gin.Context) {
 //@Failure 400 {object} string "Error al obtener productos"
 //@Router /products [get]
 func GetProducts(c *gin.Context) {
-	var products []models.Product
-	if err := db.Preload("Stocks").Find(&products).Error; err != nil {
+	products, err := productService.GetAll()
+	if err != nil {
 		c.JSON(500, gin.H{"error": "Error al obtener productos"})
 		return
 	}
@@ -62,8 +61,8 @@ func GetProducts(c *gin.Context) {
 //@Router /products/{id} [get]
 func GetProductByID(c *gin.Context) {
 	id := c.Param("id")
-	var product models.Product
-	if err := db.Preload("Stocks").First(&product, id).Error; err != nil {
+	product, err := productService.GetByID(id)
+	if err != nil {
 		c.JSON(404, gin.H{"error": "Producto no encontrado"})
 		return
 	}
@@ -81,19 +80,16 @@ func GetProductByID(c *gin.Context) {
 //@Router /products/{id} [put]
 func UpdateProduct(c *gin.Context) {
 	id := c.Param("id")
-	var product models.Product
-	if err := db.First(&product, id).Error; err != nil {
-		c.JSON(404, gin.H{"error": "Producto no encontrado"})
-		return
-	}
-
-	var updatedProduct models.Product
-	if err := c.ShouldBindJSON(&updatedProduct); err != nil {
+	var updated models.Product
+	if err := c.ShouldBindJSON(&updated); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-
-	db.Model(&product).Updates(updatedProduct)
+	product, err := productService.Update(id, &updated)
+	if err != nil {
+		c.JSON(404, gin.H{"error": "Producto no encontrado"})
+		return
+	}
 
 	c.JSON(200, product)
 }
@@ -108,12 +104,9 @@ func UpdateProduct(c *gin.Context) {
 //@Router /products/{id} [delete]
 func DeleteProduct(c *gin.Context) {
 	id := c.Param("id")
-	var product models.Product
-	if err := db.First(&product, id).Error; err != nil {
+	if err := productService.Delete(id); err != nil {
 		c.JSON(404, gin.H{"error": "Producto no encontrado"})
 		return
 	}
-
-	db.Delete(&product)
 	c.Status(204) //código de que no devuelve contenido
 }
