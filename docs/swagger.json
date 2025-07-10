@@ -53,45 +53,6 @@
             }
         },
         "/excelReader": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Excel"
-                ],
-                "summary": "Leer un archivo Excel y guardarlo en la base de datos",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Ruta del archivo Excel",
-                        "name": "path",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "additionalProperties": true
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Error al leer el archivo",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
             "post": {
                 "consumes": [
                     "application/json"
