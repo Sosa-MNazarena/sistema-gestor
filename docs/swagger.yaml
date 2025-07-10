@@ -40,17 +40,45 @@ definitions:
     type: object
 host: localhost:8080
 info:
-  contact: {}
+  contact:
+    name: Sosa, Mariana Nazarena
   description: Esta API permite gestionar productos con GORM y Gin.
-  title: API de Productos
+  title: Sistema Gestor de Productos API
   version: "1.0"
 paths:
+  /apiReader:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: URL de la API
+        in: query
+        name: baseURL
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "400":
+          description: Error al leer el archivo
+          schema:
+            type: string
+      summary: Leer un archivo de datos de una API
+      tags:
+      - APIs
   /excelReader:
     get:
       consumes:
       - application/json
       parameters:
-      - description: Ruta del archivo (absoluta)
+      - description: Ruta del archivo Excel
         in: query
         name: path
         required: true
@@ -69,9 +97,35 @@ paths:
           description: Error al leer el archivo
           schema:
             type: string
-      summary: Leer un archivo Excel
+      summary: Leer un archivo Excel y guardarlo en la base de datos
       tags:
-      - Excels
+      - Excel
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ruta del archivo Excel
+        in: query
+        name: path
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "400":
+          description: Error al leer el archivo
+          schema:
+            type: string
+      summary: Leer un archivo Excel y guardarlo en la base de datos
+      tags:
+      - Excel
   /products:
     get:
       consumes:

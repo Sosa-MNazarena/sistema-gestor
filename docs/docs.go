@@ -9,12 +9,55 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "Sosa, Mariana Nazarena"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/apiReader": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Leer un archivo de datos de una API",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "URL de la API",
+                        "name": "baseURL",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error al leer el archivo",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/excelReader": {
             "get": {
                 "consumes": [
@@ -24,13 +67,52 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Excels"
+                    "Excel"
                 ],
-                "summary": "Leer un archivo Excel",
+                "summary": "Leer un archivo Excel y guardarlo en la base de datos",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Ruta del archivo (absoluta)",
+                        "description": "Ruta del archivo Excel",
+                        "name": "path",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error al leer el archivo",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Excel"
+                ],
+                "summary": "Leer un archivo Excel y guardarlo en la base de datos",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Ruta del archivo Excel",
                         "name": "path",
                         "in": "query",
                         "required": true
@@ -309,7 +391,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "API de Productos",
+	Title:            "Sistema Gestor de Productos API",
 	Description:      "Esta API permite gestionar productos con GORM y Gin.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
