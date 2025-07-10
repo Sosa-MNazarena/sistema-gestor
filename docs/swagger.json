@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Esta API permite gestionar productos con GORM y Gin.",
+        "description": "Esta API permite gestionar productos con GORM y Gin, incluyendo la importación desde archivos Excel y APIs externas.",
         "title": "Sistema Gestor de Productos API",
         "contact": {
             "name": "Sosa, Mariana Nazarena"

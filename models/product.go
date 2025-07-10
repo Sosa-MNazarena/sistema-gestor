@@ -5,6 +5,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// Product representa un producto en el sistema.
+// swagger: model Product
 type Product struct {
 	ID          uint           `json:"id" gorm:"primaryKey"`
 	CreatedAt   time.Time      `json:"created_at"`

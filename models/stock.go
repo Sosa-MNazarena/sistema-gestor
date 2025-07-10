@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// Stock representa el stock de un producto en una sucursal.
+// swagger: model Stock
 type Stock struct {
 	ID          uint      `json:"id" gorm:"primaryKey"`
 	CreatedAt   time.Time `json:"created_at"`

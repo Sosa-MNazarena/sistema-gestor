@@ -353,7 +353,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Sistema Gestor de Productos API",
-	Description:      "Esta API permite gestionar productos con GORM y Gin.",
+	Description:      "Esta API permite gestionar productos con GORM y Gin, incluyendo la importación desde archivos Excel y APIs externas.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

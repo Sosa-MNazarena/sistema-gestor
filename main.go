@@ -15,7 +15,7 @@ import (
 
 // @title Sistema Gestor de Productos API
 // @version 1.0
-// @description Esta API permite gestionar productos con GORM y Gin.
+// @description Esta API permite gestionar productos con GORM y Gin, incluyendo la importación desde archivos Excel y APIs externas.
 // @contact.name Sosa, Mariana Nazarena
 // @host localhost:8080
 // @BasePath /
