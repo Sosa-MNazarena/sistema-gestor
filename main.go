@@ -39,6 +39,11 @@ func main() {
 	excelService := services.NewExcelImportService(excelRepo)
 	controllers.InitExcelImportService(excelService)
 
+	apiRepo := repositories.NewProductImportRepository(db)
+	apiService := services.NewApiImportService(apiRepo)
+	controllers.InitApiImportService(apiService)
+
+
 	router := gin.Default()
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
