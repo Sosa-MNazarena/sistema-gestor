@@ -53,6 +53,7 @@ func (s *apiImportService) ImportFromApi(baseURL string) ([]models.Product, erro
 	if err != nil {
 		return nil, err
 	}
-	go events.SendCustomEmail("mariana.sosa@davinci.edu.ar", "Carga desde Excel", "Se han cargado los productos desde la API correctamente.")
+	email := " "
+	go events.SendCustomEmail(email, "Carga desde API", "Se han cargado los productos desde la API correctamente.")
 	return products, nil
 }

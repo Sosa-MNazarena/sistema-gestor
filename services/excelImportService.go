@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	//"net/mail"
 	"sistema-gestor/events"
 	"sistema-gestor/models"
 	"sistema-gestor/repositories"
@@ -83,11 +84,11 @@ func (s *excelImportService) ImportFromExcel(path string) ([]models.Product, err
 	if err := s.repo.SaveImported(products); err != nil {
 		return nil, err
 	}
-
+	email := " "
 	msg := "Se han leído los datos del Excel y actualizado el sistema correctamente."
 	if duplicados > 0 {
 	msg += fmt.Sprintf(" Se descartaron %d productos duplicados.", duplicados)
 	}
-	go events.SendCustomEmail("mariana.sosa@davinci.edu.ar", "Carga desde Excel", msg)
+	go events.SendCustomEmail(email, "Carga desde Excel", msg)
 	return products, nil
 }
