@@ -1,9 +1,16 @@
 package controllers
 
 import (
+	"net/http"
+	"sistema-gestor/services"
 	"github.com/gin-gonic/gin"
-	"sistema-gestor/strategy"
 )
+
+var apiImportService services.ApiImportService
+
+func InitApiImportService(service services.ApiImportService) {
+	apiImportService = service
+}
 
 //@Summary Leer un archivo de datos de una API
 //@Tags APIs
@@ -16,17 +23,14 @@ import (
 func ReadApiFile(c *gin.Context) {
 	baseURL := c.Query("baseURL")
 	if baseURL == "" {
-		c.JSON(400, gin.H{"error": "Falta el parámetro 'baseURL'"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Falta el parámetro 'baseURL'"})
 		return
 	}
 
-	context := strategy.ReaderContext{}
-	context.SetReader(&strategy.ApiReader{BaseURL: baseURL})
-
-	data, err := context.ProcessData()
+	products, err := apiImportService.ImportFromApi(baseURL)
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, data)
+	c.JSON(http.StatusOK, products)
 }
