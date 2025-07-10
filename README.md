@@ -19,6 +19,11 @@ Control de versiones: **Git + GitHub**
 
 ## Instrucciones para correrlo localmente
 
+### Requisitos
+- Tener Go instalado: https://go.dev/dl/
+- Tener MySQL instalado y corriendo (puede ser también DBeaver)
+- Git y GitHub
+
 1. **Clonar el repositorio**
 
 ```bash
@@ -28,16 +33,20 @@ cd sistema-gestor
 
 2. **Crear la base de datos**
 
-```bash
-mysql -u root -p < crear_base.sql
+Deberás ejecutar el archivo `crear_base.sql` para crear la base de datos.
+    
+    Primero: Abrí el Workbench de MySQL o el DBeaver.
+        **nota**: Si no tenés instalado MySQL, necesitás correr el XAMPP(https://www.apachefriends.org) que es esencial para que MySQL corra localmente.
+    
+    Segundo: Una vez que estés conectado a tu servidor MySQL, abrí la base de datos y ejecutá el archivo `crear_base.sql` para crear la base de datos(File > Open > crear_base.sql).
+    O también podés hacerlo manualmente, abriendo una nueva pestaña query y ejecutando lo siguiente:
 
-```
-El archivo crear_base.sql contiene el script SQL necesario para crear la base de datos.
-
-```sql
-CREATE DATABASE IF NOT EXISTS sistemagestor;
-USE sistemagestor;
-```
+        ```sql
+        CREATE DATABASE IF NOT EXISTS sistemagestor;
+        USE sistemagestor;
+        ```
+    
+    Tercero: Ejecutá el script y revisá que la base de datos sistemagestor haya sido creada correctamente. 
 
 3. **Instalar las dependencias**
 
@@ -111,6 +120,33 @@ http://localhost:8080/swagger/index.html
     - Método: **GET**
     - Endpoint: /products
 
+## Pruebas con archivos Excel y API
+
+    Para el correcto funcionamiento de estas funciones, y tener la experiencia completa, se recomienda cambiar el email destinatario configura para recibir los reportes de cargas de datos.
+    Para ello:
+    - Abrir el archivo events/emailEvent.go
+    - En la línea 13, cambiar el email de ejemplo por tu mail (por default, está el mail de la autora del proyecto) como el ejempo.
+    ```bash
+    m.SetHeader("To", "email@ejemplo.com") 
+    ```
+    - Guardar el archivo y ejecutar la aplicación nuevamente con el comando `go run main.go`.
+
+4. **Cargar productos de prueba desde un archivo Excel**
+
+    - Método: **POST**
+    - Endpoint: /excelReader
+
+    **nota**: El archivo debe estar en el mismo directorio que el proyecto. Se pega el path del archivo y sin comillas.
+
+    En el proyecto se encuentra un archivos excels de ejemplo llamado `ejemploProductos.xlsx` y `ejemploProductosConDuplicados.xlsx` que contienen datos de ejemplo para probar la API.
+
+5. **Cargar productos de prueba desde una API**
+
+    - Método: **POST**
+    - Endpoint: /apiReader
+
+    Podés probar la API de ejemplo en la siguiente URL: https://686d9a71c9090c495386c173.mockapi.io/APIproductos/productos
+        
 ---
 
 ## Estructura del proyecto
@@ -118,11 +154,22 @@ http://localhost:8080/swagger/index.html
 ```bash
 sistema-gestor/
 ├── controllers
+│   ├── apiController.go
 │   ├── productController.go
 │   └── excelController.go
+├── docs
+├── events
+│   └── emailEvent.go
 ├── models
 │   ├── product.go
 │   └── stock.go
+├── services
+│   ├── apiImportService.go
+│   ├── excelImportService.go
+│   └── productService.go
+├── repositories
+│   ├── productImportRepository.go
+│   └── productRepository.go
 ├── strategy
 │   ├── apiReader.go
 │   ├── dataReader.go
@@ -132,6 +179,8 @@ sistema-gestor/
 ├── go.mod
 ├── go.sum
 ├── crear_base.sql
+├── ejemploProductos.xlsx
+├── ejemploProductosConDuplicados.xlsx
 └── README.md
 ```
 ---
