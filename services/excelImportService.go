@@ -1,14 +1,13 @@
 package services
 
 import (
+	"fmt"
 	"sistema-gestor/events"
 	"sistema-gestor/models"
 	"sistema-gestor/repositories"
 	"sistema-gestor/strategy"
 	"strconv"
 )
-
-//var ProductSvc ProductService
 
 type ExcelImportService interface {
 	ImportFromExcel(path string) ([]models.Product, error)
@@ -29,34 +28,66 @@ func (s *excelImportService) ImportFromExcel(path string) ([]models.Product, err
 	if err != nil {
 		return nil, err
 	}
-	
+
 	var products []models.Product
-	for _, entry := range data {
-		product := models.Product{
-			Nombre:      entry["nombre"].(string),
-			Descripcion: entry["descripcion"].(string),
-			Categoria:   entry["categoria"].(string),
-			Proveedor:   entry["proveedor"].(string),
+	duplicados := 0
+	for i, entry := range data {
+		nombre, ok1 := entry["nombre"].(string)
+		descripcion, ok2 := entry["descripcion"].(string)
+		categoria, ok3 := entry["categoria"].(string)
+		proveedor, ok4 := entry["proveedor"].(string)
+		precioRaw, ok5 := entry["precio"]
+
+		if !ok1 || nombre == "" || !ok2 || !ok3 || !ok4 || !ok5 {
+			return nil, fmt.Errorf("producto %d: campos faltantes o vacíos", i+1)
 		}
 
-		//en caso de que el precio sea un string, se parsea a float básicamente
-		switch v := entry["precio"].(type) {
+		var precio float64
+		switch v := precioRaw.(type) {
 		case float64:
-			product.Precio = v
+			precio = v
 		case string:
-			f, err := strconv.ParseFloat(v, 64)
-			if err == nil {
-				product.Precio = f
+			p, err := strconv.ParseFloat(v, 64)
+			if err != nil {
+				return nil, fmt.Errorf("producto %d: precio inválido", i+1)
 			}
+			precio = p
+		default:
+			return nil, fmt.Errorf("producto %d: tipo de precio desconocido", i+1)
+		}
+
+		if precio <= 0 {
+			return nil, fmt.Errorf("producto %d: el precio debe ser mayor a cero", i+1)
+		}
+
+		//duplicado de prod combo proveedor+nombre
+		exists, err := s.repo.ExistsDuplicate(nombre, proveedor)
+		if err != nil {
+			return nil, fmt.Errorf("producto %d: error al verificar duplicados", i+1)
+		}
+		if exists {
+			duplicados++
+			continue
+		}
+
+		product := models.Product{
+			Nombre:      nombre,
+			Descripcion: descripcion,
+			Categoria:   categoria,
+			Proveedor:   proveedor,
+			Precio:      precio,
 		}
 		products = append(products, product)
 	}
 
-	err = s.repo.SaveImported(products)
-	if err != nil {
+	if err := s.repo.SaveImported(products); err != nil {
 		return nil, err
 	}
-	go events.SendLoadSuccessEmail("mariana.sosa@davinci.edu.ar")
-	return products, nil
 
+	msg := "Se han leído los datos del Excel y actualizado el sistema correctamente."
+	if duplicados > 0 {
+	msg += fmt.Sprintf(" Se descartaron %d productos duplicados.", duplicados)
+	}
+	go events.SendCustomEmail("mariana.sosa@davinci.edu.ar", "Carga desde Excel", msg)
+	return products, nil
 }
