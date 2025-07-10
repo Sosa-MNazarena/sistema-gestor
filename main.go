@@ -4,7 +4,8 @@ import (
 	controllers "sistema-gestor/controllers"
 	_ "sistema-gestor/docs"
 	"sistema-gestor/models"
-
+	"sistema-gestor/repositories"
+	"sistema-gestor/services"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -30,17 +31,25 @@ func main() {
 		panic("failed to migrate database")
 	}
 
+	productRepo := repositories.NewProductRepository(db)
+	productService := services.NewProductService(productRepo)
+	controllers.InitProductService(productService)
+
+	excelRepo := repositories.NewProductImportRepository(db)
+	excelService := services.NewExcelImportService(excelRepo)
+	controllers.InitExcelImportService(excelService)
+
 	router := gin.Default()
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	controllers.InitDB(db)
 	router.POST("/products", controllers.CreateProduct)
 	router.GET("/products", controllers.GetProducts)
 	router.GET("/products/:id", controllers.GetProductByID)
 	router.PUT("/products/:id", controllers.UpdateProduct)
 	router.DELETE("/products/:id", controllers.DeleteProduct)
-	router.GET("/excelReader", controllers.ReadExcelFile)
 
+	router.POST("/excelReader", controllers.ReadExcelFile)
+	router.GET("/apiReader", controllers.ReadApiFile)
 
 	router.Run(":8080")
 
