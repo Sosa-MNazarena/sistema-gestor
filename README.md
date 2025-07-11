@@ -8,12 +8,12 @@ Este proyecto consiste en una **API RESTful** desarrollada en **Go** con **Gin**
 
 ## Tecnologías utilizadas en el proyecto
 
-Lenguaje: **Go (Golang)**
-Web framework: **Gin**
-ORM: **GORM**
-Base de datos: **MySQL**
-Documentación: **Swagger (Swaggo)**
-Control de versiones: **Git + GitHub**
+- Lenguaje: **Go (Golang)**
+- Web framework: **Gin**
+- ORM: **GORM**
+- Base de datos: **MySQL**
+- Documentación: **Swagger (Swaggo)**
+- Control de versiones: **Git + GitHub**
 
 ---
 
