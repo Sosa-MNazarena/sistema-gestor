@@ -12,10 +12,10 @@ type Product struct {
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"-"`
-	Nombre        string  `gorm:"not null" json:"nombre"`
-	Descripcion string  `json:"descripcion"`
-	Categoria	string  `json:"categoria"`
-	Proveedor	 string  `json:"proveedor"`
-	Precio       float64 `gorm:"not null" json:"precio"`
+	Nombre        string  `gorm:"not null;size:200" json:"nombre"`
+	Descripcion string  `gorm:"not null;size:500" json:"descripcion"`
+	Categoria	string  `gorm:"not null;size:100" json:"categoria"`
+	Proveedor	 string  `gorm:"not null" json:"proveedor"`
+	Precio       float64 `gorm:"not null;check:Precio>0" json:"precio"`
 	Stocks    []Stock  `gorm:"foreignKey:ProductID;references:ID" json:"stocks"`
 }

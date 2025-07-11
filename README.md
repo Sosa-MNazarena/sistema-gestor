@@ -35,18 +35,18 @@ cd sistema-gestor
 
 Deberás ejecutar el archivo `crear_base.sql` para crear la base de datos.
     
-    Primero: Abrí el Workbench de MySQL o el DBeaver.
-        **nota**: Si no tenés instalado MySQL, necesitás correr el XAMPP(https://www.apachefriends.org) que es esencial para que MySQL corra localmente.
-    
-    Segundo: Una vez que estés conectado a tu servidor MySQL, abrí la base de datos y ejecutá el archivo `crear_base.sql` para crear la base de datos(File > Open > crear_base.sql).
-    O también podés hacerlo manualmente, abriendo una nueva pestaña query y ejecutando lo siguiente:
+Primero: Abrí el Workbench de MySQL o el DBeaver.
+    **nota**: Si no tenés instalado MySQL, necesitás correr el XAMPP(https://www.apachefriends.org) que es esencial para que MySQL corra localmente.
 
-        ```sql
-        CREATE DATABASE IF NOT EXISTS sistemagestor;
-        USE sistemagestor;
-        ```
-    
-    Tercero: Ejecutá el script y revisá que la base de datos sistemagestor haya sido creada correctamente. 
+Segundo: Una vez que estés conectado a tu servidor MySQL, abrí la base de datos y ejecutá el archivo `crear_base.sql` para crear la base de datos(File > Open > crear_base.sql).
+O también podés hacerlo manualmente, abriendo una nueva pestaña query y ejecutando lo siguiente:
+
+    ```sql
+    CREATE DATABASE IF NOT EXISTS sistemagestor;
+    USE sistemagestor;
+    ```
+
+Tercero: Ejecutá el script y revisá que la base de datos sistemagestor haya sido creada correctamente. 
 
 3. **Instalar las dependencias**
 
@@ -122,14 +122,17 @@ http://localhost:8080/swagger/index.html
 
 ## Pruebas con archivos Excel y API
 
-    Para el correcto funcionamiento de estas funciones, y tener la experiencia completa, se recomienda cambiar el email destinatario configura para recibir los reportes de cargas de datos.
-    Para ello:
-    - Abrir el archivo events/emailEvent.go
-    - En la línea 13, cambiar el email de ejemplo por tu mail (por default, está el mail de la autora del proyecto) como el ejempo.
-    ```bash
-    m.SetHeader("To", "email@ejemplo.com") 
-    ```
-    - Guardar el archivo y ejecutar la aplicación nuevamente con el comando `go run main.go`.
+Para el correcto funcionamiento de estas funciones, y tener la experiencia completa, se recomienda cambiar el email destinatario configura para recibir los reportes de cargas de datos.
+Para ello:
+
+- Abrir el archivo events/emailEvent.go
+- En la línea 13, cambiar el email de ejemplo por tu mail (por default, está el mail de la autora del proyecto) como el ejempo.
+
+```bash
+m.SetHeader("To", "email@ejemplo.com") 
+```
+
+- Guardar el archivo y ejecutar la aplicación nuevamente con el comando `go run main.go`.
 
 4. **Cargar productos de prueba desde un archivo Excel**
 
