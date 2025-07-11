@@ -2,7 +2,7 @@
 
 ## Breve explicación del proyecto
 
-Este proyecto consiste en una **API RESTful** desarrollada en **Go** con **Gin** y **GORM**, que permite gestionar productos y stocks como parte de un sistema mayor orientado a la integración y limpieza de datos provenientes de fuentes heterogéneas (archivos, APIs, bases locales). La API permite registrar productos con su información, proveedores y disponibilidad en distintas sucursales. Toda la documentación de los endpoints está integrada en Swagger.
+Este proyecto consiste en una **API RESTful** desarrollada en **Go** con **Gin** y **GORM**, que permite gestionar productos y stocks como parte de un sistema mayor orientado a la integración de datos provenientes de fuentes heterogéneas (archivos, APIs y archivos Excel). La API permite registrar productos, eliminarlos, editarlos y buscarlos con toda la información disponible. Toda la documentación de los endpoints está integrada en Swagger.
 
 ---
 
