@@ -41,10 +41,9 @@ Primero: Abrí el Workbench de MySQL o el DBeaver.
 Segundo: Una vez que estés conectado a tu servidor MySQL, abrí la base de datos y ejecutá el archivo `crear_base.sql` para crear la base de datos(File > Open > crear_base.sql).
 O también podés hacerlo manualmente, abriendo una nueva pestaña query y ejecutando lo siguiente:
 
-    ```sql
+    
     CREATE DATABASE IF NOT EXISTS sistemagestor;
     USE sistemagestor;
-    ```
 
 Tercero: Ejecutá el script y revisá que la base de datos sistemagestor haya sido creada correctamente. 
 
